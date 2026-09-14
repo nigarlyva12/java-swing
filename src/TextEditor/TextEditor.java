@@ -11,6 +11,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class TextEditor {
+	private final int W = 720;
+	private final int H = 480;
+	
 	private JFrame mainFrame;
 	private Image icon;
 	private JMenuBar mb;
@@ -25,14 +28,23 @@ public class TextEditor {
 		mb = new JMenuBar();
 		menu = new JMenu("File");
 		
+		FileManager fileManager = new FileManager(panel.getTextArea());
+
 		newPage = new JMenuItem("New");
 		openFiles = new JMenuItem("Open");
 		saveFile = new JMenuItem("Save");
 		saveAs = new JMenuItem("Save as");
 		aboutFakeWordPad = new JMenuItem("About");
 		exit = new JMenuItem("Exit");
-
-		FileManager fileManager = new FileManager(panel.getTextArea());
+		
+		saveFile.addActionListener(e -> {
+			try {
+				fileManager.save();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 				
 		menu.add(newPage);
 		menu.add(openFiles);
@@ -46,7 +58,7 @@ public class TextEditor {
 		mainFrame.setJMenuBar(mb);
 		mainFrame.add(panel);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(720,480);
+		mainFrame.setSize(W, H);
 		mainFrame.setIconImage(icon);
 		mainFrame.setVisible(true);
 	}
