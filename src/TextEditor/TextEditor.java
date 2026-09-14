@@ -18,6 +18,7 @@ public class TextEditor {
 	private JMenu menu;
 	
 	public TextEditor() throws IOException {
+		EditorPanel panel = new EditorPanel();
 		icon = ImageIO.read(new File("notepad.png")); 
 		
 		mainFrame = new JFrame("Fake WordPad");
@@ -31,6 +32,8 @@ public class TextEditor {
 		aboutFakeWordPad = new JMenuItem("About");
 		exit = new JMenuItem("Exit");
 
+		FileManager fileManager = new FileManager(panel.getTextArea());
+				
 		menu.add(newPage);
 		menu.add(openFiles);
 		menu.add(saveFile);
@@ -41,6 +44,7 @@ public class TextEditor {
 		mb.add(menu);
 		
 		mainFrame.setJMenuBar(mb);
+		mainFrame.add(panel);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(720,480);
 		mainFrame.setIconImage(icon);
