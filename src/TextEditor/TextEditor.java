@@ -37,6 +37,15 @@ public class TextEditor {
 		aboutFakeWordPad = new JMenuItem("About");
 		exit = new JMenuItem("Exit");
 		
+		newPage.addActionListener(e -> {
+			try {
+				fileManager.newPage();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
 		saveFile.addActionListener(e -> {
 			try {
 				fileManager.save();
@@ -64,6 +73,9 @@ public class TextEditor {
 			}
 		});
 		
+		aboutFakeWordPad.addActionListener(e -> {
+			
+		});
 		menu.add(newPage);
 		menu.add(openFiles);
 		menu.add(saveFile);

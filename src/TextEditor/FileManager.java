@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -45,11 +46,10 @@ public class FileManager {
 		
 		int result = fc.showSaveDialog(null);
 		
-		if(result == JFileChooser.APPROVE_OPTION) {
+		if(result == JFileChooser.APPROVE_OPTION) 
 			currentFile = fc.getSelectedFile();
-		}else {
+		else 
 			return;
-		}
 		
 		BufferedWriter writer = new BufferedWriter(new FileWriter(currentFile));
 		writer.write(textArea.getText());
@@ -74,5 +74,25 @@ public class FileManager {
 			textArea.setText(text);
 		}
 		
+	}
+	
+	public void newPage() throws IOException {
+		if(!textArea.getText().isBlank()) {
+			int result = JOptionPane.showConfirmDialog(null, 
+				    "Do you want to save your changes?",
+				    "Unsaved Changes", JOptionPane.YES_NO_CANCEL_OPTION);
+			if(result == JOptionPane.YES_OPTION) {
+				save();
+				textArea.setText("");
+				currentFile = null;
+			}else if(result == JOptionPane.NO_OPTION) {
+				textArea.setText("");
+				currentFile = null;
+			}else {
+				return;
+			}
+		}
+		else
+			textArea.setText("");
 	}
 }
