@@ -95,4 +95,20 @@ public class FileManager {
 		else
 			textArea.setText("");
 	}
+	
+	public void exit() throws IOException {
+		if(!textArea.getText().isBlank()) {
+			int result = JOptionPane.showConfirmDialog(null, 
+				    "Do you want to save your changes?",
+				    "Unsaved Changes", JOptionPane.YES_NO_CANCEL_OPTION);
+			if(result == JOptionPane.YES_OPTION) {
+				save();
+				currentFile = null;
+			}else if(result == JOptionPane.NO_OPTION) {
+				currentFile = null;
+			}else {
+				return;
+			}
+		}
+	}
 }

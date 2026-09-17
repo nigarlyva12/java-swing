@@ -76,6 +76,18 @@ public class TextEditor {
 		aboutFakeWordPad.addActionListener(e -> {
 			
 		});
+		
+		exit.addActionListener(e -> {
+			try {
+				fileManager.exit();
+				System.exit(0);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		});
+		
 		menu.add(newPage);
 		menu.add(openFiles);
 		menu.add(saveFile);
