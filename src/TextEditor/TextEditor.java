@@ -45,7 +45,25 @@ public class TextEditor {
 				e1.printStackTrace();
 			}
 		});
-				
+		
+		saveAs.addActionListener(e -> {
+			try {
+				fileManager.saveAs();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
+		openFiles.addActionListener(e -> {
+			try {
+				fileManager.open();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
 		menu.add(newPage);
 		menu.add(openFiles);
 		menu.add(saveFile);
@@ -61,6 +79,7 @@ public class TextEditor {
 		mainFrame.setSize(W, H);
 		mainFrame.setIconImage(icon);
 		mainFrame.setVisible(true);
+		
 	}
 	
 	public static void main(String[] args) throws IOException {
