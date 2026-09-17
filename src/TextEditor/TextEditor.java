@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class TextEditor {
 	private final int W = 720;
@@ -27,6 +28,8 @@ public class TextEditor {
 		mainFrame = new JFrame("Fake WordPad");
 		mb = new JMenuBar();
 		menu = new JMenu("File");
+		menu.addSeparator();
+		menu = new JMenu("Home");
 		
 		FileManager fileManager = new FileManager(panel.getTextArea());
 
@@ -74,7 +77,10 @@ public class TextEditor {
 		});
 		
 		aboutFakeWordPad.addActionListener(e -> {
-			
+			JOptionPane.showMessageDialog(null, 
+				    "Fake WordPad\nVersion 1.0\n© 2026",
+				    "About",
+				    JOptionPane.INFORMATION_MESSAGE);
 		});
 		
 		exit.addActionListener(e -> {
