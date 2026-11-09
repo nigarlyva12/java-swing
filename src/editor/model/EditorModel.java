@@ -21,8 +21,8 @@ public class EditorModel {
     // ---- Programminformationen (Copyright) ----
     public static final String APP_NAME = "WeDoText";
     public static final String VERSION = "1.0";
-    public static final String AUTHOR = "Nigar [Nachname]";   // TODO: eigenen Namen eintragen
-    public static final String SCHOOL_CLASS = "[Klasse]";     // TODO: eigene Klasse eintragen
+    public static final String AUTHOR = "Nigar Aliyeva";
+    public static final String SCHOOL_CLASS = "ITO6";
     public static final int YEAR = 2026;
 
     /** Ab dieser Spalte wird im Textfeld die rote Linie gezeichnet. */
