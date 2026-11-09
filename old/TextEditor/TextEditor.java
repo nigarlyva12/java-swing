@@ -1,5 +1,7 @@
 package TextEditor;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +21,8 @@ public class TextEditor {
 	private Image icon;
 	private JMenuBar mb;
 	private JMenuItem newPage, openFiles, saveFile, saveAs, aboutFakeWordPad, exit;
-	private JMenu menu;
+	private JMenu fileMenu;
+	private JMenu homeMenu;
 	
 	public TextEditor() throws IOException {
 		EditorPanel panel = new EditorPanel();
@@ -27,9 +30,15 @@ public class TextEditor {
 		
 		mainFrame = new JFrame("Fake WordPad");
 		mb = new JMenuBar();
-		menu = new JMenu("File");
-		menu.addSeparator();
-		menu = new JMenu("Home");
+		
+		fileMenu = new JMenu("File");
+		fileMenu.setForeground(Color.white);
+		fileMenu.addSeparator();
+		homeMenu = new JMenu("Home");
+		homeMenu.setForeground(Color.white);
+		
+		fileMenu.setFont(new Font("Arial", Font.BOLD, 14));
+		homeMenu.setFont(new Font("Arial", Font.BOLD, 14));
 		
 		FileManager fileManager = new FileManager(panel.getTextArea());
 
@@ -52,6 +61,8 @@ public class TextEditor {
 		saveFile.addActionListener(e -> {
 			try {
 				fileManager.save();
+				JOptionPane.showMessageDialog(null, "Datei wurde erfolgreich gespeichert", "Info",
+						JOptionPane.INFORMATION_MESSAGE);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -61,6 +72,7 @@ public class TextEditor {
 		saveAs.addActionListener(e -> {
 			try {
 				fileManager.saveAs();
+				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -94,14 +106,15 @@ public class TextEditor {
 			
 		});
 		
-		menu.add(newPage);
-		menu.add(openFiles);
-		menu.add(saveFile);
-		menu.add(saveAs);
-		menu.add(aboutFakeWordPad);
-		menu.add(exit);
+		fileMenu.add(newPage);
+		fileMenu.add(openFiles);
+		fileMenu.add(saveFile);
+		fileMenu.add(saveAs);
+		fileMenu.add(aboutFakeWordPad);
+		fileMenu.add(exit);
 		
-		mb.add(menu);
+		mb.add(fileMenu);
+		mb.add(homeMenu);
 		
 		mainFrame.setJMenuBar(mb);
 		mainFrame.add(panel);

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>WeDoText – Dokumentation</title>
+<style>
+  @page { size: A4; margin: 18mm 18mm 20mm 18mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10.5pt; line-height: 1.5; color: #1f2937; margin: 0; }
+  h1 { font-size: 20pt; color: #1e3a8a; border-bottom: 3px solid #0ea5e9; padding-bottom: 4px; margin: 0 0 12px; }
+  h2 { font-size: 13.5pt; color: #1e3a8a; margin: 20px 0 6px; }
+  h3 { font-size: 11pt; margin: 14px 0 4px; }
+  p { margin: 6px 0; }
+  .page { page-break-before: always; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.5pt; }
+  th, td { border: 1px solid #cbd5e1; padding: 4px 7px; text-align: left; vertical-align: top; }
+  th { background: #e0f2fe; }
+  tr { page-break-inside: avoid; }
+  code { font-family: Consolas, monospace; font-size: 9pt; background: #f1f5f9; padding: 0 3px; border-radius: 3px; }
+  pre { font-family: Consolas, monospace; font-size: 8.6pt; line-height: 1.35; background: #f8fafc; border: 1px solid #e2e8f0;
+        border-left: 4px solid #0ea5e9; padding: 8px 10px; margin: 6px 0 10px; white-space: pre-wrap; page-break-inside: avoid; }
+  figure { margin: 10px 0; text-align: center; page-break-inside: avoid; }
+  figure img, figure svg { max-width: 100%; border: 1px solid #cbd5e1; }
+  figcaption { font-size: 9pt; color: #64748b; margin-top: 3px; }
+  .note { background: #fef9c3; border: 1px solid #fde047; padding: 6px 10px; border-radius: 4px; }
+  kbd { font-family: Consolas, monospace; font-size: 8.8pt; border: 1px solid #94a3b8; border-bottom-width: 2px; border-radius: 3px; padding: 0 4px; background: #fff; }
+  /* Deckblatt */
+  .cover { text-align: center; padding-top: 50mm; }
+  .cover img { width: 45mm; border: none; }
+  .cover h1 { border: none; font-size: 30pt; margin: 14px 0 4px; }
+  .cover .sub { font-size: 14pt; color: #475569; }
+  .cover table { width: 60%; margin: 40mm auto 0; font-size: 11pt; }
+  .cover td { border: none; border-bottom: 1px solid #e2e8f0; }
+  .toc { list-style: none; padding: 0; font-size: 11pt; }
+  .toc li { padding: 3px 0; border-bottom: 1px dotted #cbd5e1; }
+  .toc ul { list-style: none; padding-left: 20px; font-size: 10pt; }
+</style>
+</head>
+<body>
+
+<!-- ============================ DECKBLATT ============================ -->
+<div class="cover">
+  <img src="img/logo.png" alt="Logo WeDoText">
+  <h1>WeDoText</h1>
+  <div class="sub">Texteditor für die Abteilung Übersetzung<br>We-Do-IT GmbH</div>
+  <table>
+    <tr><td>Projekt</td><td>Entwicklung eines Texteditors (Java Swing, MVC)</td></tr>
+    <tr><td>Name</td><td>Nigar [Nachname]</td></tr>
+    <tr><td>Klasse</td><td>[Klasse]</td></tr>
+    <tr><td>Abgabe</td><td>11.11.2026</td></tr>
+    <tr><td>Version</td><td>1.0</td></tr>
+  </table>
+</div>
+
+<!-- ============================ INHALT ============================ -->
+<div class="page">
+<h1>Inhaltsverzeichnis</h1>
+<ul class="toc">
+  <li>1. Projektkontext</li>
+  <li>2. Anforderungen an den Texteditor</li>
+  <li>3. Planung und Vorgehen
+    <ul><li>3.1 Vorgehensweise und Zeitplan</li><li>3.2 Anwendungsfalldiagramm</li><li>3.3 Architektur: Model-View-Controller</li>
+        <li>3.4 Klassendiagramm</li><li>3.5 Sequenzdiagramm „Weitersuchen“</li></ul></li>
+  <li>4. Erläuterung des Codes
+    <ul><li>4.1 Aufbau der Pakete</li><li>4.2 Wichtige Codestellen</li></ul></li>
+  <li>5. Bedienungsanleitung</li>
+  <li>6. Zusatzfunktion: Textstatistik</li>
+  <li>7. Tests</li>
+  <li>8. Fazit</li>
+</ul>
+</div>
+
+<!-- ============================ 1 KONTEXT ============================ -->
+<div class="page">
+<h1>1. Projektkontext</h1>
+<p>Die <b>We-Do-IT GmbH</b> ist ein IT-Unternehmen mit mehreren Fachabteilungen. Nach mehreren internen Vorkommnissen
+in der <b>Abteilung Übersetzung</b> hat die Geschäftsleitung (Herr W. Jürgen) entschieden, dass diese Abteilung
+weniger Zugriff auf Standardsoftware erhalten soll. Statt allgemeiner Programme soll die Abteilung
+<b>Individualsoftware</b> bekommen, die genau auf ihre Aufgaben zugeschnitten ist und vom eigenen
+Entwicklungsteam kontrolliert wird.</p>
+<p>Als erstes Programm soll die Abteilung einen eigenen <b>Texteditor</b> erhalten. Den Auftrag dazu hat die
+Geschäftsleitung per E-Mail an die Entwicklungsabteilung geschickt. Ich habe diesen Auftrag als Mitglied
+der Entwicklungsabteilung umgesetzt.</p>
+
+<h2>Rahmenbedingungen</h2>
+<table>
+  <tr><th style="width:30%">Punkt</th><th>Festlegung</th></tr>
+  <tr><td>Auftraggeber</td><td>Geschäftsleitung der We-Do-IT GmbH, W. Jürgen</td></tr>
+  <tr><td>Nutzer</td><td>Mitarbeiterinnen und Mitarbeiter der Abteilung Übersetzung</td></tr>
+  <tr><td>Programmiersprache</td><td>Java 21</td></tr>
+  <tr><td>Oberfläche</td><td>Java Swing</td></tr>
+  <tr><td>Architektur</td><td>Model-View-Controller (MVC)</td></tr>
+  <tr><td>Auslieferung</td><td>ausführbare <code>.jar</code>-Datei mit Dokumentation als ZIP-Archiv</td></tr>
+  <tr><td>Abgabetermin</td><td>11.11.2026</td></tr>
+</table>
+
+<h2>Warum ein eigener Editor?</h2>
+<p>Ein eigener Editor hat für das Unternehmen mehrere Vorteile:</p>
+<ul>
+  <li>Die Abteilung bekommt nur die Funktionen, die sie wirklich braucht. Das macht das Programm übersichtlich und sicher.</li>
+  <li>Das Programm kann an die Arbeit der Übersetzer angepasst werden (z. B. Sonderzeichen aus anderen Sprachen,
+      Markierung einer maximalen Zeilenlänge, Textstatistik zur Abrechnung).</li>
+  <li>Der Quellcode gehört dem Unternehmen und kann jederzeit erweitert werden.</li>
+</ul>
+<p>Der Name des Editors ist <b>WeDoText</b>. Er leitet sich vom Firmennamen <i>We-Do-IT</i> ab.</p>
+</div>
+
+<!-- ============================ 2 ANFORDERUNGEN ============================ -->
+<div class="page">
+<h1>2. Anforderungen an den Texteditor</h1>
+<p>Aus der E-Mail der Geschäftsleitung habe ich folgende Anforderungen abgeleitet.
+Die rechte Spalte zeigt, wie jede Anforderung im Programm umgesetzt wurde.</p>
+<table>
+  <tr><th style="width:5%">Nr.</th><th style="width:42%">Anforderung</th><th>Umsetzung im Programm</th></tr>
+  <tr><td>A1</td><td>Menüleiste mit Neu, Öffnen (Laden), Speichern, Speichern unter und Beenden</td><td>Menü <i>Datei</i> mit allen fünf Einträgen</td></tr>
+  <tr><td>A2</td><td>Dateiauswahl voreingestellt auf .txt, .csv und .java</td><td><code>JFileChooser</code> mit <code>FileNameExtensionFilter</code> beim Öffnen und Speichern unter</td></tr>
+  <tr><td>A3</td><td>Dateiname im Fenstertitel, Angebot zu speichern, wenn nötig</td><td>Titel „Dateiname - WeDoText“, ein Stern * zeigt ungespeicherte Änderungen; bei Neu, Öffnen und Beenden wird nachgefragt</td></tr>
+  <tr><td>A4</td><td>Meldung über Erfolg oder Misserfolg mit Dateigröße</td><td>Nicht beschreibbares Meldungsfeld in der Statusleiste, z. B. „Erfolgreich gespeichert: brief.txt (1.204 Bytes)“</td></tr>
+  <tr><td>A5</td><td>Anzeige der Cursorposition (Zeile und Spalte) mit Eingabemöglichkeit</td><td>Felder <i>Zeile</i> und <i>Spalte</i> in der Statusleiste; Eingabe + Enter springt zur Position</td></tr>
+  <tr><td>A6</td><td>Rote senkrechte Linie ab Spalte 60</td><td>Eigene Klasse <code>EditorTextArea</code> zeichnet die Linie in <code>paintComponent</code></td></tr>
+  <tr><td>A7</td><td>Suchen mit Shortcut und Anzeige der Markierung</td><td><kbd>Strg</kbd>+<kbd>F</kbd>, <kbd>F3</kbd>; Treffer wird gelb markiert</td></tr>
+  <tr><td>A8</td><td>Suche startet am Cursor, geht zum nächsten Fundort, Meldung „nicht gefunden“ bzw. „von vorne“</td><td>Methode <code>findNext()</code>; am Textende Frage „Von vorne weitersuchen?“</td></tr>
+  <tr><td>A9</td><td>Ersetzen ab Cursorposition, Meldung wenn nicht gefunden</td><td>Buttons <i>Ersetzen</i> und <i>Alle ersetzen</i> (<kbd>Strg</kbd>+<kbd>H</kbd>)</td></tr>
+  <tr><td>A10</td><td>Groß- und Kleinschreibung beachten oder ignorieren</td><td>Checkbox im Suchdialog, gilt für Suchen und Ersetzen</td></tr>
+  <tr><td>A11</td><td>Eigenes, skalierbares Logo unten rechts (mit JPanel)</td><td>Klasse <code>LogoPanel</code> zeichnet das Logo mit Java2D in jeder Größe; auch als Fenstersymbol</td></tr>
+  <tr><td>A12</td><td>Hilfe-Menü mit Copyright (Jahr, Name, Klasse)</td><td>Menü <i>Hilfe → Über WeDoText</i></td></tr>
+  <tr><td>A13</td><td>Menü / Dialog für Sonderzeichen</td><td>Menü <i>Sonderzeichen</i> mit häufigen Zeichen und einer Tabelle mit 80 Zeichen (<kbd>Strg</kbd>+<kbd>T</kbd>)</td></tr>
+  <tr><td>A14</td><td>Gängige Shortcuts</td><td>Alle Menüeinträge haben Tastenkürzel, Übersicht unter <i>Hilfe</i> (<kbd>F1</kbd>)</td></tr>
+  <tr><td>A15</td><td>Individuelle Sonderfunktion mit Beschreibung unter Hilfe</td><td><i>Extras → Textstatistik</i>, Beschreibung unter <i>Hilfe → Zusatzfunktion</i></td></tr>
+  <tr><td>A16</td><td>Swing und MVC</td><td>Pakete <code>model</code>, <code>view</code>, <code>controller</code></td></tr>
+</table>
+
+<h2>Nicht-funktionale Anforderungen</h2>
+<ul>
+  <li><b>Einfache Bedienung:</b> Aufbau wie bekannte Editoren, deutsche Beschriftungen.</li>
+  <li><b>Wartbarkeit:</b> klare Trennung nach MVC und kommentierter Quellcode.</li>
+  <li><b>Lauffähigkeit:</b> eine einzige <code>.jar</code>-Datei ohne weitere Bibliotheken, Java 21.</li>
+  <li><b>Umlaute und Sonderzeichen:</b> Dateien werden in UTF-8 gelesen und geschrieben.</li>
+</ul>
+</div>
+
+<!-- ============================ 3 PLANUNG ============================ -->
+<div class="page">
+<h1>3. Planung und Vorgehen</h1>
+
+<h2>3.1 Vorgehensweise und Zeitplan</h2>
+<p>Ich bin schrittweise (inkrementell) vorgegangen: Zuerst wurde ein lauffähiges Grundgerüst gebaut
+und danach Funktion für Funktion ergänzt und getestet. Jeder Schritt wurde mit Git gesichert.</p>
+<table>
+  <tr><th style="width:18%">Zeitraum</th><th style="width:22%">Phase</th><th>Tätigkeiten</th></tr>
+  <tr><td>09.09.2026</td><td>Analyse</td><td>Auftrag der Geschäftsleitung lesen, Anforderungen auflisten (Kapitel 2), Projekt in Eclipse anlegen</td></tr>
+  <tr><td>14.09.2026</td><td>Entwurf + Grundgerüst</td><td>Fensteraufbau (Layout), Textfeld, erste Speicherfunktion</td></tr>
+  <tr><td>17.09.2026</td><td>Dateifunktionen</td><td>Öffnen, Speichern, Speichern unter, Neu, Beenden, Über-Dialog</td></tr>
+  <tr><td>Okt. 2026</td><td>UML-Entwurf</td><td>Anwendungsfall-, Klassen- und Sequenzdiagramm; Aufteilung in Model, View und Controller</td></tr>
+  <tr><td>Nov. 2026</td><td>Umsetzung MVC</td><td>Umbau in die drei Pakete, Statusleiste, rote Linie, Suchen/Ersetzen, Sonderzeichen, Logo, Textstatistik</td></tr>
+  <tr><td>Nov. 2026</td><td>Test + Abgabe</td><td>Tests (Kapitel 7), Dokumentation, <code>.jar</code> erstellen, ZIP-Archiv abgeben (11.11.2026)</td></tr>
+</table>
+
+<h2>3.2 Anwendungsfalldiagramm</h2>
+<p>Das Anwendungsfalldiagramm zeigt, was ein Mitarbeiter der Abteilung Übersetzung mit dem Editor tun kann.
+Es diente als Checkliste für die Menüs: Jeder Anwendungsfall wird zu mindestens einem Menüeintrag.</p>
+<figure>
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial" font-size="13">
+  <rect x="190" y="10" width="560" height="340" fill="#f8fafc" stroke="#1e3a8a" stroke-width="1.5"/>
+  <text x="470" y="32" text-anchor="middle" font-weight="bold" fill="#1e3a8a">System: WeDoText</text>
+  <!-- Akteur -->
+  <circle cx="80" cy="140" r="14" fill="none" stroke="#1f2937" stroke-width="2"/>
+  <line x1="80" y1="154" x2="80" y2="200" stroke="#1f2937" stroke-width="2"/>
+  <line x1="50" y1="170" x2="110" y2="170" stroke="#1f2937" stroke-width="2"/>
+  <line x1="80" y1="200" x2="55" y2="235" stroke="#1f2937" stroke-width="2"/>
+  <line x1="80" y1="200" x2="105" y2="235" stroke="#1f2937" stroke-width="2"/>
+  <text x="80" y="256" text-anchor="middle">Mitarbeiter</text>
+  <text x="80" y="272" text-anchor="middle">Übersetzung</text>
+  <!-- Linien zum Akteur -->
+  <g stroke="#64748b">
+    <line x1="112" y1="170" x2="238" y2="55"/><line x1="112" y1="170" x2="238" y2="100"/>
+    <line x1="112" y1="170" x2="236" y2="145"/><line x1="112" y1="170" x2="236" y2="190"/>
+    <line x1="112" y1="170" x2="236" y2="235"/><line x1="112" y1="170" x2="238" y2="280"/>
+    <line x1="112" y1="170" x2="240" y2="322"/>
+  </g>
+  <g fill="#e0f2fe" stroke="#0369a1">
+    <ellipse cx="330" cy="55" rx="95" ry="19"/><ellipse cx="330" cy="100" rx="95" ry="19"/>
+    <ellipse cx="330" cy="145" rx="95" ry="19"/><ellipse cx="330" cy="190" rx="95" ry="19"/>
+    <ellipse cx="330" cy="235" rx="95" ry="19"/><ellipse cx="330" cy="280" rx="95" ry="19"/>
+    <ellipse cx="330" cy="325" rx="95" ry="19"/>
+    <ellipse cx="630" cy="78" rx="105" ry="20"/><ellipse cx="630" cy="145" rx="105" ry="20"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="330" y="60">Datei öffnen / neu</text>
+    <text x="330" y="105">Datei speichern</text>
+    <text x="330" y="150">Text suchen</text>
+    <text x="330" y="195">Zu Zeile/Spalte springen</text>
+    <text x="330" y="240">Sonderzeichen einfügen</text>
+    <text x="330" y="285">Textstatistik anzeigen</text>
+    <text x="330" y="330">Hilfe / Copyright ansehen</text>
+    <text x="630" y="83">Speichern anbieten</text>
+    <text x="630" y="150">Text ersetzen</text>
+  </g>
+  <!-- include / extend -->
+  <g stroke="#1f2937" stroke-dasharray="5,4" fill="none">
+    <line x1="425" y1="57" x2="526" y2="74"/><line x1="425" y1="98" x2="526" y2="82"/>
+    <line x1="524" y1="145" x2="427" y2="145"/>
+  </g>
+  <g fill="#1f2937"><path d="M526 74 l-10 -6 l-1 9 z"/><path d="M526 82 l-11 -2 l3 9 z"/><path d="M427 145 l10 -5 v10 z"/></g>
+  <g font-size="11" fill="#475569" text-anchor="middle">
+    <text x="476" y="56">«include»</text><text x="476" y="106">«include»</text><text x="476" y="138">«extend»</text>
+  </g>
+</svg>
+<figcaption>Abb. 1: Anwendungsfalldiagramm</figcaption>
+</figure>
+<p>„Speichern anbieten“ ist in „Datei öffnen / neu“ und „Datei speichern“ eingebunden (beim Beenden ebenso):
+Bevor ungespeicherte Änderungen verloren gehen, fragt das Programm nach. „Text ersetzen“ erweitert „Text suchen“,
+weil beide denselben Dialog verwenden.</p>
+</div>
+
+<div class="page">
+<h2>3.3 Architektur: Model-View-Controller</h2>
+<p>Das Programm ist nach dem Entwurfsmuster <b>MVC</b> aufgebaut. Jede Klasse hat genau eine Aufgabe:</p>
+<table>
+  <tr><th style="width:18%">Schicht</th><th style="width:30%">Klassen</th><th>Aufgabe</th></tr>
+  <tr><td><b>Model</b></td><td><code>EditorModel</code></td><td>Daten und Logik: aktuelle Datei, Änderungsstatus, Laden/Speichern, Suchalgorithmus, Textstatistik.
+      <b>Kennt keine Swing-Klassen</b> und weder View noch Controller.</td></tr>
+  <tr><td><b>View</b></td><td><code>EditorView</code>, <code>EditorTextArea</code>, <code>LogoPanel</code>, <code>SearchDialog</code>, <code>SpecialCharDialog</code></td>
+      <td>Oberfläche: Fenster, Menüs, Statusleiste, Dialoge. Enthält <b>keine Programmlogik</b>, sondern bietet Getter und Anzeige-Methoden an.</td></tr>
+  <tr><td><b>Controller</b></td><td><code>EditorController</code></td><td>Verbindet beides: hängt ActionListener an die Menüs und Buttons,
+      ruft das Model auf und aktualisiert danach die View.</td></tr>
+  <tr><td>Start</td><td><code>Main</code></td><td>Erzeugt Model, View und Controller und zeigt das Fenster an.</td></tr>
+</table>
+<p>Der Ablauf ist immer gleich: <b>Benutzer → View → Controller → Model → Controller → View</b>.
+Beispiel Speichern: Der Benutzer klickt auf <i>Speichern</i> (View), der Controller holt den Text aus dem Textfeld
+und gibt ihn an <code>model.save()</code>. Danach schreibt der Controller die Erfolgsmeldung mit der Dateigröße ins
+Meldungsfeld der View.</p>
+<p>Vorteil: Man könnte die Oberfläche austauschen (z. B. JavaFX statt Swing), ohne das Model zu ändern.
+Außerdem lässt sich die Suchlogik im Model ohne Oberfläche testen.</p>
+
+<h2>3.4 Klassendiagramm</h2>
+<figure>
+<svg viewBox="0 0 1000 790" xmlns="http://www.w3.org/2000/svg" font-family="Consolas, monospace" font-size="12">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10" fill="none" stroke="#1f2937"/></marker>
+    <marker id="tri" viewBox="0 0 12 12" refX="12" refY="6" markerWidth="12" markerHeight="12" orient="auto"><path d="M0 0 L12 6 L0 12 z" fill="#fff" stroke="#1f2937"/></marker>
+    <marker id="dia" viewBox="0 0 14 10" refX="0" refY="5" markerWidth="14" markerHeight="10" orient="auto"><path d="M0 5 L7 0 L14 5 L7 10 z" fill="#1f2937"/></marker>
+  </defs>
+
+  <!-- Main -->
+  <rect x="400" y="10" width="200" height="54" fill="#fff" stroke="#1f2937"/>
+  <text x="500" y="29" text-anchor="middle" font-weight="bold">Main</text>
+  <line x1="400" y1="37" x2="600" y2="37" stroke="#1f2937"/>
+  <text x="408" y="55">+ main(args: String[])</text>
+
+  <!-- JFrame -->
+  <rect x="800" y="18" width="150" height="34" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="875" y="40" text-anchor="middle" fill="#475569">«Swing» JFrame</text>
+
+  <!-- Paket-Beschriftungen -->
+  <g font-family="Segoe UI, Arial" font-size="12" fill="#0369a1" font-weight="bold">
+    <text x="10" y="112">Paket model</text><text x="342" y="112">Paket controller</text><text x="675" y="112">Paket view</text>
+  </g>
+
+  <!-- EditorModel -->
+  <rect x="10" y="120" width="315" height="310" fill="#eff6ff" stroke="#1f2937"/>
+  <text x="167" y="140" text-anchor="middle" font-weight="bold">EditorModel</text>
+  <line x1="10" y1="150" x2="325" y2="150" stroke="#1f2937"/>
+  <text x="18" y="168">+ APP_NAME, AUTHOR, SCHOOL_CLASS</text>
+  <text x="18" y="185">+ YEAR: int</text>
+  <text x="18" y="202">+ MARK_COLUMN: int = 60</text>
+  <text x="18" y="219">- currentFile: File</text>
+  <text x="18" y="236">- modified: boolean</text>
+  <line x1="10" y1="248" x2="325" y2="248" stroke="#1f2937"/>
+  <text x="18" y="266">+ load(file): String</text>
+  <text x="18" y="283">+ save(file, text)</text>
+  <text x="18" y="300">+ newDocument()</text>
+  <text x="18" y="317">+ getTitle(): String</text>
+  <text x="18" y="334">+ getFileSize(): long</text>
+  <text x="18" y="351">+ ensureExtension(file): File</text>
+  <text x="18" y="368">+ find(text, query, from,</text>
+  <text x="18" y="385">       matchCase): int</text>
+  <text x="18" y="402">+ getStatistics(text): String</text>
+  <text x="18" y="419">+ isModified() / setModified()</text>
+
+  <!-- EditorController -->
+  <rect x="342" y="120" width="315" height="345" fill="#f0fdf4" stroke="#1f2937"/>
+  <text x="499" y="140" text-anchor="middle" font-weight="bold">EditorController</text>
+  <line x1="342" y1="150" x2="657" y2="150" stroke="#1f2937"/>
+  <text x="350" y="168">- model: EditorModel</text>
+  <text x="350" y="185">- view: EditorView</text>
+  <text x="350" y="202">- textArea: EditorTextArea</text>
+  <text x="350" y="219">- undoManager: UndoManager</text>
+  <text x="350" y="236">- loading: boolean</text>
+  <line x1="342" y1="248" x2="657" y2="248" stroke="#1f2937"/>
+  <text x="350" y="266">- registerListeners()</text>
+  <text x="350" y="283">- newFile() / openFile()</text>
+  <text x="350" y="300">- save(): boolean</text>
+  <text x="350" y="317">- saveAs(): boolean</text>
+  <text x="350" y="334">- askToSave(): boolean</text>
+  <text x="350" y="351">- exit()</text>
+  <text x="350" y="368">- updatePosition()</text>
+  <text x="350" y="385">- goToPosition()</text>
+  <text x="350" y="402">- findNext()</text>
+  <text x="350" y="419">- replace() / replaceAll()</text>
+  <text x="350" y="436">- insertText(text)</text>
+  <text x="350" y="453">- setDocumentText(text)</text>
+
+  <!-- EditorView -->
+  <rect x="675" y="120" width="315" height="310" fill="#fff7ed" stroke="#1f2937"/>
+  <text x="832" y="140" text-anchor="middle" font-weight="bold">EditorView</text>
+  <line x1="675" y1="150" x2="990" y2="150" stroke="#1f2937"/>
+  <text x="683" y="168">- textArea: EditorTextArea</text>
+  <text x="683" y="185">- messageField: JTextField</text>
+  <text x="683" y="202">- lineField, columnField</text>
+  <text x="683" y="219">- searchDialog: SearchDialog</text>
+  <text x="683" y="236">- specialCharDialog</text>
+  <text x="683" y="253">- newItem, openItem ...: JMenuItem</text>
+  <line x1="675" y1="265" x2="990" y2="265" stroke="#1f2937"/>
+  <text x="683" y="283">+ showMessage(text)</text>
+  <text x="683" y="300">+ showInfo() / showError()</text>
+  <text x="683" y="317">+ askSaveChanges(): int</text>
+  <text x="683" y="334">+ askYesNo(title, question)</text>
+  <text x="683" y="351">+ chooseOpenFile(): File</text>
+  <text x="683" y="368">+ chooseSaveFile(file): File</text>
+  <text x="683" y="385">+ showManual() / showAbout()</text>
+  <text x="683" y="402">+ showFeatureHelp()</text>
+  <text x="683" y="419">+ getNewItem() ... (Getter)</text>
+
+  <!-- Hilfsklassen der View -->
+  <rect x="10" y="520" width="235" height="120" fill="#fff7ed" stroke="#1f2937"/>
+  <text x="127" y="540" text-anchor="middle" font-weight="bold">EditorTextArea</text>
+  <line x1="10" y1="550" x2="245" y2="550" stroke="#1f2937"/>
+  <text x="18" y="568">- searchMark: Object</text>
+  <line x1="10" y1="580" x2="245" y2="580" stroke="#1f2937"/>
+  <text x="18" y="598"># paintComponent(g)</text>
+  <text x="18" y="615">+ markText(start, end)</text>
+  <text x="18" y="632">+ clearMark()</text>
+
+  <rect x="260" y="520" width="235" height="120" fill="#fff7ed" stroke="#1f2937"/>
+  <text x="377" y="540" text-anchor="middle" font-weight="bold">LogoPanel</text>
+  <line x1="260" y1="550" x2="495" y2="550" stroke="#1f2937"/>
+  <text x="268" y="568"># paintComponent(g)</text>
+  <text x="268" y="585">+ drawLogo(g, x, y, size)</text>
+  <text x="268" y="602">+ createImage(size): Image</text>
+  <text x="268" y="619">+ createIcons(): List</text>
+
+  <rect x="510" y="520" width="235" height="137" fill="#fff7ed" stroke="#1f2937"/>
+  <text x="627" y="540" text-anchor="middle" font-weight="bold">SearchDialog</text>
+  <line x1="510" y1="550" x2="745" y2="550" stroke="#1f2937"/>
+  <text x="518" y="568">- searchField, replaceField</text>
+  <text x="518" y="585">- matchCaseBox: JCheckBox</text>
+  <line x1="510" y1="597" x2="745" y2="597" stroke="#1f2937"/>
+  <text x="518" y="615">+ open(focusReplace)</text>
+  <text x="518" y="632">+ getSearchText(): String</text>
+  <text x="518" y="649">+ isMatchCase(): boolean</text>
+
+  <rect x="760" y="520" width="230" height="120" fill="#fff7ed" stroke="#1f2937"/>
+  <text x="875" y="540" text-anchor="middle" font-weight="bold">SpecialCharDialog</text>
+  <line x1="760" y1="550" x2="990" y2="550" stroke="#1f2937"/>
+  <text x="768" y="568">+ CHARACTERS: String</text>
+  <text x="768" y="585">- buttons: List&lt;JButton&gt;</text>
+  <line x1="760" y1="597" x2="990" y2="597" stroke="#1f2937"/>
+  <text x="768" y="615">+ getButtons(): List</text>
+
+  <!-- Swing-Oberklassen -->
+  <g fill="#f1f5f9" stroke="#94a3b8">
+    <rect x="52" y="730" width="150" height="34"/><rect x="302" y="730" width="150" height="34"/><rect x="675" y="730" width="150" height="34"/>
+  </g>
+  <g fill="#475569" text-anchor="middle">
+    <text x="127" y="752">«Swing» JTextArea</text><text x="377" y="752">«Swing» JPanel</text><text x="750" y="752">«Swing» JDialog</text>
+  </g>
+
+  <!-- Vererbung -->
+  <g stroke="#1f2937" fill="none" marker-end="url(#tri)">
+    <line x1="127" y1="640" x2="127" y2="730"/>
+    <line x1="377" y1="640" x2="377" y2="730"/>
+    <line x1="627" y1="657" x2="720" y2="730"/>
+    <line x1="875" y1="640" x2="790" y2="730"/>
+    <line x1="900" y1="120" x2="890" y2="52"/>
+  </g>
+
+  <!-- Main erzeugt -->
+  <g stroke="#1f2937" stroke-dasharray="6,4" fill="none" marker-end="url(#arrow)">
+    <line x1="430" y1="64" x2="200" y2="120"/>
+    <line x1="500" y1="64" x2="500" y2="120"/>
+    <line x1="570" y1="64" x2="832" y2="120"/>
+  </g>
+  <g font-family="Segoe UI, Arial" font-size="11" fill="#475569">
+    <text x="262" y="88">«create»</text><text x="506" y="96">«create»</text><text x="690" y="88">«create»</text>
+  </g>
+
+  <!-- Controller kennt Model und View -->
+  <g stroke="#1f2937" fill="none" marker-end="url(#arrow)">
+    <line x1="342" y1="300" x2="326" y2="300"/>
+    <line x1="657" y1="300" x2="674" y2="300"/>
+  </g>
+  <g font-family="Segoe UI, Arial" font-size="11" fill="#1f2937">
+    <text x="12" y="450">Controller → Model und Controller → View:</text>
+    <text x="12" y="465">gerichtete Assoziation (der Controller kennt beide,</text>
+    <text x="12" y="480">Model und View kennen den Controller nicht)</text>
+  </g>
+
+  <!-- Komposition View -> Hilfsklassen -->
+  <g stroke="#1f2937" fill="none" marker-start="url(#dia)">
+    <polyline points="760,430 760,495 127,495 127,520"/>
+    <polyline points="860,430 860,505 627,505 627,520"/>
+    <line x1="920" y1="430" x2="875" y2="520"/>
+  </g>
+  <line x1="377" y1="495" x2="377" y2="520" stroke="#1f2937" stroke-dasharray="3,3"/>
+</svg>
+<figcaption>Abb. 2: Klassendiagramm (vereinfacht: nur die wichtigsten Attribute und Methoden)</figcaption>
+</figure>
+<p><b>Erläuterung:</b> <code>Main</code> erzeugt die drei MVC-Bausteine. Der <code>EditorController</code> hält eine
+Referenz auf Model und View, umgekehrt gibt es keine Verbindung. Die <code>EditorView</code> ist ein <code>JFrame</code> und
+besteht aus dem Textfeld und den beiden Dialogen (Komposition, schwarze Raute). Das <code>LogoPanel</code> wird in der
+Statusleiste angezeigt (gestrichelt). Für die besonderen Anforderungen wurden Swing-Klassen durch
+<b>Vererbung</b> erweitert: <code>EditorTextArea</code> erbt von <code>JTextArea</code> (rote Linie), <code>LogoPanel</code> von
+<code>JPanel</code> (Logo zeichnen), die beiden Dialoge von <code>JDialog</code>.</p>
+</div>
+
+<div class="page">
+<h2>3.5 Sequenzdiagramm „Weitersuchen“</h2>
+<p>Das Sequenzdiagramm zeigt am Beispiel der Suche, wie die MVC-Klassen zusammenarbeiten.</p>
+<figure>
+<svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial" font-size="12">
+  <defs>
+    <marker id="a2" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1f2937"/></marker>
+    <marker id="a3" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10" fill="none" stroke="#1f2937"/></marker>
+  </defs>
+  <g fill="#e0f2fe" stroke="#0369a1">
+    <rect x="20" y="10" width="110" height="34"/><rect x="175" y="10" width="130" height="34"/>
+    <rect x="350" y="10" width="150" height="34"/><rect x="545" y="10" width="130" height="34"/>
+    <rect x="715" y="10" width="130" height="34"/><rect x="875" y="10" width="110" height="34"/>
+  </g>
+  <g text-anchor="middle" font-weight="bold">
+    <text x="75" y="32">Benutzer</text><text x="240" y="32">:SearchDialog</text><text x="425" y="32">:EditorController</text>
+    <text x="610" y="32">:EditorModel</text><text x="780" y="32">:EditorTextArea</text><text x="930" y="32">:EditorView</text>
+  </g>
+  <g stroke="#94a3b8" stroke-dasharray="5,4">
+    <line x1="75" y1="44" x2="75" y2="545"/><line x1="240" y1="44" x2="240" y2="545"/><line x1="425" y1="44" x2="425" y2="545"/>
+    <line x1="610" y1="44" x2="610" y2="545"/><line x1="780" y1="44" x2="780" y2="545"/><line x1="930" y1="44" x2="930" y2="545"/>
+  </g>
+  <rect x="419" y="105" width="12" height="420" fill="#bbf7d0" stroke="#15803d"/>
+  <rect x="604" y="190" width="12" height="40" fill="#bfdbfe" stroke="#1d4ed8"/>
+
+  <g stroke="#1f2937" marker-end="url(#a2)">
+    <line x1="75" y1="80" x2="238" y2="80"/>
+    <line x1="240" y1="110" x2="417" y2="110"/>
+    <line x1="431" y1="145" x2="238" y2="145"/>
+    <line x1="431" y1="195" x2="602" y2="195"/>
+    <line x1="431" y1="300" x2="928" y2="300"/>
+    <line x1="431" y1="345" x2="602" y2="345"/>
+    <line x1="431" y1="442" x2="778" y2="442"/>
+    <line x1="431" y1="467" x2="778" y2="467"/>
+    <line x1="431" y1="500" x2="928" y2="500"/>
+  </g>
+  <g stroke="#1f2937" stroke-dasharray="5,3" marker-end="url(#a3)">
+    <line x1="238" y1="165" x2="431" y2="165"/>
+    <line x1="604" y1="225" x2="431" y2="225"/>
+    <line x1="928" y1="320" x2="431" y2="320"/>
+    <line x1="604" y1="365" x2="431" y2="365"/>
+  </g>
+  <g>
+    <text x="80" y="74">1: Klick „Weitersuchen“ / F3</text>
+    <text x="250" y="104">2: findNext()</text>
+    <text x="250" y="139">3: getSearchText(), isMatchCase()</text>
+    <text x="250" y="160" fill="#475569">Suchbegriff, matchCase</text>
+    <text x="440" y="189">4: find(text, query, caret, matchCase)</text>
+    <text x="440" y="219" fill="#475569">index</text>
+  </g>
+  <!-- alt-Fragment -->
+  <rect x="400" y="250" width="560" height="140" fill="none" stroke="#475569"/>
+  <path d="M400 250 h44 v14 l-8 8 h-36 z" fill="#f1f5f9" stroke="#475569"/>
+  <text x="406" y="265" font-weight="bold">alt</text>
+  <text x="455" y="268" fill="#475569">[index == -1 und Cursor nicht am Anfang]</text>
+  <text x="440" y="294">5: askYesNo("Von vorne weitersuchen?")</text>
+  <text x="440" y="315" fill="#475569">ja</text>
+  <text x="440" y="339">6: find(text, query, 0, matchCase)</text>
+  <text x="440" y="359" fill="#475569">index</text>
+
+  <rect x="400" y="398" width="560" height="80" fill="none" stroke="#475569"/>
+  <path d="M400 398 h44 v14 l-8 8 h-36 z" fill="#f1f5f9" stroke="#475569"/>
+  <text x="406" y="413" font-weight="bold">alt</text>
+  <text x="455" y="416" fill="#475569">[index gefunden]</text>
+  <text x="440" y="437">7: markText(index, index + länge)  (gelb)</text>
+  <text x="440" y="462">8: setCaretPosition / moveCaretPosition</text>
+  <text x="440" y="494">9: showMessage("… gefunden in Zeile …")</text>
+</svg>
+<figcaption>Abb. 3: Sequenzdiagramm „Weitersuchen“ (ohne Treffer zeigt die View stattdessen „nicht gefunden“)</figcaption>
+</figure>
+<p><b>Erläuterung des Vorgehens anhand der Diagramme:</b> Aus dem Anwendungsfalldiagramm ergaben sich die
+Menüs und Dialoge der View. Im Klassendiagramm habe ich dann festgelegt, welche Klasse welche Aufgabe übernimmt.
+Wichtig war dabei: Alles, was ohne Oberfläche funktioniert (Datei lesen/schreiben, Suchen, Statistik),
+kommt ins Model. Das Sequenzdiagramm zeigt die Reihenfolge der Aufrufe und half beim Programmieren
+der Methode <code>findNext()</code>: Erst wird ab dem Cursor gesucht (Schritt 4); nur wenn nichts gefunden wurde,
+fragt das Programm, ob von vorne gesucht werden soll (Schritte 5–6). Anschließend wird der Treffer markiert
+und der Cursor dahinter gesetzt, sodass der nächste Klick den nächsten Fundort findet.</p>
+</div>
+
+<!-- ============================ 4 CODE ============================ -->
+<div class="page">
+<h1>4. Erläuterung des Codes</h1>
+
+<h2>4.1 Aufbau der Pakete</h2>
+<pre>src/editor/
+├── Main.java                    Startpunkt, erzeugt Model, View und Controller
+├── model/
+│   └── EditorModel.java         Daten + Logik (ohne Swing)
+├── view/
+│   ├── EditorView.java          Hauptfenster: Menüs, Textfeld, Statusleiste
+│   ├── EditorTextArea.java      Textfeld mit roter Linie und Suchmarkierung
+│   ├── LogoPanel.java           skalierbares Logo (Java2D)
+│   ├── SearchDialog.java        Dialog „Suchen und Ersetzen“
+│   └── SpecialCharDialog.java   Sonderzeichen-Tabelle
+└── controller/
+    └── EditorController.java    Reaktion auf alle Benutzeraktionen</pre>
+
+<h2>4.2 Wichtige Codestellen</h2>
+
+<h3>a) Start und Verbindung der MVC-Teile (<code>Main</code>)</h3>
+<pre>EditorModel model = new EditorModel();
+EditorView view = new EditorView();
+new EditorController(model, view);   // Controller meldet sich an der View an
+view.setVisible(true);</pre>
+<p>Die Oberfläche wird mit <code>SwingUtilities.invokeLater</code> im Event-Dispatch-Thread erstellt, so wie es Swing verlangt.
+Mit <code>UIManager.setLookAndFeel(...)</code> sieht das Programm aus wie ein normales Windows-Programm.</p>
+
+<h3>b) Listener im Controller</h3>
+<p>Die View erstellt nur die Menüeinträge. Der Controller holt sie über Getter und hängt mit Lambda-Ausdrücken
+die passende Methode an:</p>
+<pre>view.getSaveItem().addActionListener(e -> save());
+view.getFindItem().addActionListener(e -> dialog.open(false));
+textArea.addCaretListener(e -> updatePosition());   // Zeile/Spalte bei jeder Cursorbewegung</pre>
+<p>Die Tastenkürzel werden in der View mit <code>setAccelerator(KeyStroke...)</code> an die Menüeinträge gehängt.
+Dadurch funktionieren Menü und Shortcut automatisch gleich.</p>
+
+<h3>c) Speichern anbieten (<code>askToSave</code>)</h3>
+<pre>private boolean askToSave() {
+    if (!model.isModified()) return true;          // nichts geändert -> weiter
+    int answer = view.askSaveChanges();           // Ja / Nein / Abbrechen
+    if (answer == JOptionPane.YES_OPTION) return save();
+    return answer == JOptionPane.NO_OPTION;       // Abbrechen -> false
+}</pre>
+<p>Diese Methode wird vor <i>Neu</i>, <i>Öffnen</i> und <i>Beenden</i> (auch beim Klick auf das X des Fensters) aufgerufen.
+Ob es Änderungen gibt, merkt sich das Model im Attribut <code>modified</code>. Ein <code>DocumentListener</code> am
+Textfeld setzt es bei jeder Eingabe auf <code>true</code>. Das Attribut <code>loading</code> verhindert, dass das
+Laden einer Datei selbst schon als Änderung zählt.</p>
+
+<h3>d) Suchen mit und ohne Groß-/Kleinschreibung (<code>EditorModel.find</code>)</h3>
+<pre>public int find(String text, String query, int from, boolean matchCase) {
+    for (int i = from; i &lt;= text.length() - query.length(); i++) {
+        if (text.regionMatches(!matchCase, i, query, 0, query.length())) {
+            return i;
+        }
+    }
+    return -1;
+}</pre>
+<p><code>regionMatches</code> vergleicht ab Position <code>i</code> ein Stück des Textes mit dem Suchbegriff. Der erste Parameter
+bestimmt, ob Groß-/Kleinschreibung <b>ignoriert</b> wird. Deshalb wird <code>!matchCase</code> übergeben. Die Methode wird
+für Suchen, Ersetzen und Alle ersetzen verwendet.</p>
+
+<h3>e) Suche ab Cursor mit „von vorne“ (<code>EditorController.findNext</code>)</h3>
+<pre>int from = textArea.getCaretPosition();
+int index = model.find(text, query, from, dialog.isMatchCase());
+if (index &lt; 0 &amp;&amp; from &gt; 0 &amp;&amp; view.askYesNo("Suchen", "... Von vorne weitersuchen?")) {
+    index = model.find(text, query, 0, dialog.isMatchCase());
+}
+...
+textArea.markText(index, index + query.length());      // gelbe Markierung
+textArea.setCaretPosition(index);
+textArea.moveCaretPosition(index + query.length());   // Cursor steht hinter dem Treffer</pre>
+<p>Beim <b>Ersetzen</b> wird ab <code>getSelectionStart()</code> gesucht. So wird ein gerade gefundener (markierter) Treffer selbst
+ersetzt und nicht erst der nächste.</p>
+
+<h3>f) Rote Linie ab Spalte 60 (<code>EditorTextArea.paintComponent</code>)</h3>
+<pre>protected void paintComponent(Graphics g) {
+    super.paintComponent(g);                                  // normalen Text zeichnen
+    String before = "m".repeat(EditorModel.MARK_COLUMN - 1);  // 59 Zeichen
+    int x = getInsets().left + (int) Math.round(
+            getFont().getStringBounds(before, ((Graphics2D) g).getFontRenderContext()).getWidth());
+    g.setColor(Color.RED);
+    g.fillRect(x, 0, 2, getHeight());                         // Linie über die ganze Höhe
+}</pre>
+<p>Das Textfeld nutzt eine Schrift mit fester Zeichenbreite (Monospaced), daher ist jede Spalte gleich breit.
+Gemessen wird die Breite von 59 Zeichen, weil ein einzelnes Zeichen oft keine ganze Pixelbreite hat.
+Würde man eine gerundete Zeichenbreite mal 59 nehmen, stünde die Linie bei hoher Bildschirmskalierung
+einige Spalten zu weit links.</p>
+
+<h3>g) Zeile und Spalte anzeigen und eingeben</h3>
+<pre>int caret  = textArea.getCaretPosition();
+int line   = textArea.getLineOfOffset(caret);               // ab 0 gezählt
+int column = caret - textArea.getLineStartOffset(line);
+lineField.setText(String.valueOf(line + 1));                // Anzeige ab 1</pre>
+<p>Bei der Eingabe rechnet <code>goToPosition()</code> umgekehrt: Zeilenanfang + Spalte − 1. Zu große Werte werden auf das
+Zeilen- bzw. Textende begrenzt, Buchstaben führen zu einer Meldung im Meldungsfeld.</p>
+
+<h3>h) Skalierbares Logo (<code>LogoPanel</code>)</h3>
+<pre>g.translate(x, y);
+g.scale(size / 100.0, size / 100.0);   // ab hier wird in 0..100 gezeichnet
+g.fill(new RoundRectangle2D.Double(0, 0, 100, 100, 26, 26));
+...</pre>
+<p>Das Logo wird nicht als Bilddatei geladen, sondern mit Java2D aus Formen (Rechteck, Pfade, Linien) gezeichnet.
+Weil alle Koordinaten in einem 100×100-Raster angegeben und danach skaliert werden, ist es in jeder Größe scharf:
+40 px unten rechts in der Statusleiste, 16–128 px als Fenstersymbol (<code>setIconImages</code>) und 96 px im Über-Dialog.</p>
+
+<h3>i) Dateien lesen und schreiben (<code>EditorModel</code>)</h3>
+<pre>byte[] bytes = Files.readAllBytes(file.toPath());
+return new String(bytes, StandardCharsets.UTF_8).replace("\r\n", "\n");
+...
+Files.writeString(file.toPath(), text.replace("\n", System.lineSeparator()), StandardCharsets.UTF_8);</pre>
+<p>UTF-8 sorgt dafür, dass Umlaute und alle Sonderzeichen korrekt gespeichert werden. Bei einem Fehler wirft die Methode
+eine <code>IOException</code>. Der Controller fängt sie ab und zeigt „FEHLER: … konnte nicht gespeichert werden“ an.</p>
+</div>
+
+<!-- ============================ 5 ANLEITUNG ============================ -->
+<div class="page">
+<h1>5. Bedienungsanleitung</h1>
+
+<h2>Programm starten</h2>
+<p>Voraussetzung ist Java 21 (oder neuer). Das Programm wird mit einem Doppelklick auf <code>WeDoText.jar</code>
+gestartet. Alternativ in der Eingabeaufforderung:</p>
+<pre>java -jar WeDoText.jar</pre>
+
+<h2>Das Hauptfenster</h2>
+<figure><img src="img/editor.png" alt="Hauptfenster" style="width:100%"><figcaption>Abb. 4: Hauptfenster mit roter Linie bei Spalte 60, Statusleiste und Logo</figcaption></figure>
+<table>
+  <tr><th style="width:25%">Bereich</th><th>Bedeutung</th></tr>
+  <tr><td>Titelleiste</td><td>Name der geöffneten Datei. Ein <b>*</b> vor dem Namen bedeutet: Es gibt ungespeicherte Änderungen.</td></tr>
+  <tr><td>Menüleiste</td><td>Datei, Bearbeiten, Sonderzeichen, Extras, Hilfe</td></tr>
+  <tr><td>Textfeld</td><td>Hier wird geschrieben. Die <b>rote Linie</b> zeigt, wo Spalte 60 beginnt.</td></tr>
+  <tr><td>Meldungsfeld (unten links)</td><td>Zeigt Erfolg oder Fehler, z. B. nach dem Speichern mit Dateigröße. Kann nicht beschrieben werden.</td></tr>
+  <tr><td>Zeile / Spalte</td><td>Aktuelle Cursorposition. Man kann eine Zahl eintippen und mit <kbd>Enter</kbd> dorthin springen (<kbd>Strg</kbd>+<kbd>G</kbd> setzt den Cursor ins Feld Zeile).</td></tr>
+  <tr><td>Logo (unten rechts)</td><td>Logo von WeDoText</td></tr>
+</table>
+</div>
+
+<div class="page">
+<h2>Dateien öffnen und speichern (Menü Datei)</h2>
+<figure><img src="img/menu_datei.png" alt="Menü Datei" style="width:80%"><figcaption>Abb. 5: Menü Datei</figcaption></figure>
+<ul>
+  <li><b>Neu</b> (<kbd>Strg</kbd>+<kbd>N</kbd>): leeres Dokument. Bei ungespeicherten Änderungen fragt das Programm, ob gespeichert werden soll.</li>
+  <li><b>Öffnen</b> (<kbd>Strg</kbd>+<kbd>O</kbd>): Datei auswählen. Es werden zuerst nur .txt-, .csv- und .java-Dateien angezeigt.</li>
+  <li><b>Speichern</b> (<kbd>Strg</kbd>+<kbd>S</kbd>): speichert in die aktuelle Datei. Bei einem neuen Dokument öffnet sich „Speichern unter“.</li>
+  <li><b>Speichern unter</b> (<kbd>Strg</kbd>+<kbd>Umschalt</kbd>+<kbd>S</kbd>): neuen Dateinamen wählen. Ohne Endung wird automatisch <code>.txt</code> angehängt.
+      Existiert die Datei schon, fragt das Programm vor dem Überschreiben nach.</li>
+  <li><b>Beenden</b> (<kbd>Strg</kbd>+<kbd>Q</kbd> oder X oben rechts): schließt das Programm, vorher wird ggf. Speichern angeboten.</li>
+</ul>
+
+<h2>Suchen und Ersetzen (Menü Bearbeiten)</h2>
+<figure><img src="img/search.png" alt="Suchen" style="width:100%"><figcaption>Abb. 6: Suchdialog. Der Treffer „Übersetzung“ wurde trotz Kleinschreibung gefunden und gelb markiert.</figcaption></figure>
+<ol>
+  <li><kbd>Strg</kbd>+<kbd>F</kbd> öffnet den Dialog. Suchbegriff eingeben und <b>Weitersuchen</b> (oder <kbd>Enter</kbd>) drücken.</li>
+  <li>Die Suche beginnt <b>an der Cursorposition</b>. Der Treffer wird gelb markiert. Jeder weitere Klick bzw. <kbd>F3</kbd> springt zum nächsten Treffer.</li>
+  <li>Am Textende fragt das Programm, ob <b>von vorne</b> gesucht werden soll. Gibt es keinen Treffer, erscheint „nicht gefunden“.</li>
+  <li>Ist <b>Groß-/Kleinschreibung beachten</b> nicht angehakt, findet „welt“ auch „Welt“ und „WELT“.</li>
+  <li><b>Ersetzen</b> (<kbd>Strg</kbd>+<kbd>H</kbd>) ersetzt den nächsten Treffer ab dem Cursor durch den Text im Feld „Ersetzen durch“.
+      <b>Alle ersetzen</b> ersetzt alle Treffer vom Cursor bis zum Textende und meldet die Anzahl.</li>
+</ol>
+<p>Außerdem gibt es im Menü Bearbeiten: Rückgängig (<kbd>Strg</kbd>+<kbd>Z</kbd>), Wiederholen (<kbd>Strg</kbd>+<kbd>Y</kbd>),
+Ausschneiden, Kopieren, Einfügen (<kbd>Strg</kbd>+<kbd>X</kbd>/<kbd>C</kbd>/<kbd>V</kbd>) und Alles markieren (<kbd>Strg</kbd>+<kbd>A</kbd>).</p>
+</div>
+
+<div class="page">
+<h2>Sonderzeichen einfügen</h2>
+<p>Im Menü <b>Sonderzeichen</b> stehen die häufigsten Zeichen (ä, ö, ü, ß, €, ©, §, °, „ “) direkt zur Auswahl.
+Über <b>Sonderzeichen-Tabelle</b> (<kbd>Strg</kbd>+<kbd>T</kbd>) öffnet sich ein Fenster mit 80 Zeichen:
+Akzente für Fremdsprachen, Währungen, Anführungszeichen, Pfeile, mathematische und griechische Zeichen.
+Ein Klick fügt das Zeichen an der Cursorposition ein. Das Fenster kann offen bleiben, während man weiterschreibt.</p>
+<figure><img src="img/specialchars.png" alt="Sonderzeichen" style="width:75%"><figcaption>Abb. 7: Sonderzeichen-Tabelle</figcaption></figure>
+
+<h2>Hilfe</h2>
+<ul>
+  <li><b>Bedienung und Tastenkürzel</b> (<kbd>F1</kbd>): Übersicht aller Shortcuts</li>
+  <li><b>Zusatzfunktion: Textstatistik</b>: Beschreibung der Sonderfunktion</li>
+  <li><b>Über WeDoText</b>: Version und Copyright (Jahr, Name, Klasse)</li>
+</ul>
+
+<h2>Übersicht der Tastenkürzel</h2>
+<table>
+  <tr><th>Kürzel</th><th>Funktion</th><th>Kürzel</th><th>Funktion</th></tr>
+  <tr><td><kbd>Strg</kbd>+<kbd>N</kbd></td><td>Neu</td><td><kbd>Strg</kbd>+<kbd>F</kbd></td><td>Suchen</td></tr>
+  <tr><td><kbd>Strg</kbd>+<kbd>O</kbd></td><td>Öffnen</td><td><kbd>F3</kbd></td><td>Weitersuchen</td></tr>
+  <tr><td><kbd>Strg</kbd>+<kbd>S</kbd></td><td>Speichern</td><td><kbd>Strg</kbd>+<kbd>H</kbd></td><td>Ersetzen</td></tr>
+  <tr><td><kbd>Strg</kbd>+<kbd>Umschalt</kbd>+<kbd>S</kbd></td><td>Speichern unter</td><td><kbd>Strg</kbd>+<kbd>G</kbd></td><td>Gehe zu Zeile</td></tr>
+  <tr><td><kbd>Strg</kbd>+<kbd>Q</kbd></td><td>Beenden</td><td><kbd>Strg</kbd>+<kbd>T</kbd></td><td>Sonderzeichen-Tabelle</td></tr>
+  <tr><td><kbd>Strg</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd></td><td>Rückgängig / Wiederholen</td><td><kbd>Strg</kbd>+<kbd>I</kbd></td><td>Textstatistik</td></tr>
+  <tr><td><kbd>Strg</kbd>+<kbd>X</kbd>/<kbd>C</kbd>/<kbd>V</kbd></td><td>Ausschneiden / Kopieren / Einfügen</td><td><kbd>F1</kbd></td><td>Hilfe</td></tr>
+  <tr><td><kbd>Strg</kbd>+<kbd>A</kbd></td><td>Alles markieren</td><td><kbd>Esc</kbd></td><td>Suchdialog schließen</td></tr>
+</table>
+</div>
+
+<!-- ============================ 6 ZUSATZ ============================ -->
+<div class="page">
+<h1>6. Zusatzfunktion: Textstatistik</h1>
+<p>Als besonderes Feature für die Abteilung Übersetzung bietet WeDoText eine <b>Textstatistik</b>
+(Menü <i>Extras → Textstatistik</i> oder <kbd>Strg</kbd>+<kbd>I</kbd>). Sie zeigt:</p>
+<ul>
+  <li>Anzahl der Wörter</li>
+  <li>Zeichen mit und ohne Leerzeichen</li>
+  <li>Anzahl der Zeilen und Länge der längsten Zeile</li>
+  <li>Anzahl der Zeilen, die über die rote Linie (Spalte 60) hinausgehen</li>
+  <li>geschätzte Lesezeit (ca. 200 Wörter pro Minute)</li>
+</ul>
+<h2>Nutzen für die Abteilung</h2>
+<p>Übersetzungen werden in der Praxis meistens <b>nach Wörtern oder Zeichen abgerechnet</b>. Mit der Textstatistik
+sehen die Mitarbeiter diese Zahlen sofort, ohne ein weiteres Programm öffnen zu müssen. Das passt auch zur Vorgabe
+der Geschäftsleitung, der Abteilung weniger Standardsoftware zur Verfügung zu stellen. Viele Übersetzungen
+(z. B. Untertitel oder Texte für Displays) dürfen außerdem eine <b>maximale Zeilenlänge</b> nicht überschreiten. Die Statistik
+zählt deshalb die Zeilen, die über die rote 60-Spalten-Linie hinausgehen. So erkennt man sofort, ob noch etwas umgebrochen werden muss.</p>
+<h2>Umsetzung</h2>
+<p>Die Berechnung steht im Model (<code>EditorModel.getStatistics</code>). Wörter werden mit <code>split("\\s+")</code> gezählt
+(Trennung an Leerzeichen, Tabs und Zeilenumbrüchen), Zeichen ohne Leerzeichen mit <code>replaceAll("\\s", "")</code>.
+Der Controller übergibt nur den aktuellen Text und lässt die View das Ergebnis anzeigen.
+Die Beschreibung der Funktion steht im Menü <i>Hilfe → Zusatzfunktion: Textstatistik</i>.</p>
+<figure><img src="img/menu_extras.png" alt="Menü Extras" style="width:80%"><figcaption>Abb. 8: Menü Extras</figcaption></figure>
+</div>
+
+<!-- ============================ 7 TESTS ============================ -->
+<div class="page">
+<h1>7. Tests</h1>
+<p>Alle Funktionen wurden manuell getestet. Die wichtigsten Testfälle:</p>
+<table>
+  <tr><th style="width:4%">Nr.</th><th style="width:38%">Testfall</th><th style="width:40%">Erwartetes Ergebnis</th><th>Ergebnis</th></tr>
+  <tr><td>1</td><td>Text eingeben</td><td>Titel bekommt einen *</td><td>OK</td></tr>
+  <tr><td>2</td><td>Neues Dokument speichern (Strg+S)</td><td>Dialog „Speichern unter“, nur .txt/.csv/.java sichtbar; danach Meldung mit Dateigröße, * verschwindet</td><td>OK</td></tr>
+  <tr><td>3</td><td>Dateiname ohne Endung eingeben</td><td>Datei wird als .txt gespeichert</td><td>OK</td></tr>
+  <tr><td>4</td><td>In schreibgeschützten Ordner speichern</td><td>Meldung „FEHLER: … konnte nicht gespeichert werden“</td><td>OK</td></tr>
+  <tr><td>5</td><td>Ändern und dann Beenden / X</td><td>Frage Ja/Nein/Abbrechen; Abbrechen lässt das Programm offen</td><td>OK</td></tr>
+  <tr><td>6</td><td>Datei mit Umlauten öffnen</td><td>Umlaute korrekt, Meldung „Geöffnet: … (Bytes)“</td><td>OK</td></tr>
+  <tr><td>7</td><td>Zeile 3, Spalte 10 eingeben + Enter</td><td>Cursor springt dorthin</td><td>OK</td></tr>
+  <tr><td>8</td><td>Zeile „abc“ eingeben</td><td>Meldung „Bitte nur Zahlen eingeben“</td><td>OK</td></tr>
+  <tr><td>9</td><td>Zeile mit 70 Zeichen schreiben</td><td>Rote Linie steht zwischen Zeichen 59 und 60</td><td>OK</td></tr>
+  <tr><td>10</td><td>„übersetzung“ suchen, Groß/Klein nicht beachten</td><td>„Übersetzung“ wird gefunden und gelb markiert</td><td>OK</td></tr>
+  <tr><td>11</td><td>Gleiche Suche mit Groß/Klein beachten</td><td>„nicht gefunden“</td><td>OK</td></tr>
+  <tr><td>12</td><td>Weitersuchen nach dem letzten Treffer</td><td>Frage „Von vorne weitersuchen?“, danach erster Treffer</td><td>OK</td></tr>
+  <tr><td>13</td><td>Ersetzen nach einer Suche</td><td>Der markierte Treffer wird ersetzt</td><td>OK</td></tr>
+  <tr><td>14</td><td>Ersetzen, Begriff kommt nach dem Cursor nicht vor</td><td>Meldung „ab der Cursorposition nicht gefunden“</td><td>OK</td></tr>
+  <tr><td>15</td><td>Sonderzeichen „€“ in der Tabelle klicken</td><td>€ steht an der Cursorposition</td><td>OK</td></tr>
+  <tr><td>16</td><td>Fenster vergrößern / verkleinern</td><td>Logo bleibt unten rechts, Linie bleibt an Spalte 60</td><td>OK</td></tr>
+  <tr><td>17</td><td>Textstatistik bei leerem Text</td><td>0 Wörter, keine Fehlermeldung</td><td>OK</td></tr>
+</table>
+
+<!-- ============================ 8 FAZIT ============================ -->
+<h1 style="margin-top:24px">8. Fazit</h1>
+<p>Alle Anforderungen der Geschäftsleitung wurden umgesetzt. Durch die Aufteilung nach MVC ist der Code übersichtlich:
+Die Logik (Laden, Speichern, Suchen, Statistik) steht im Model, die Oberfläche in der View und die Verbindung im Controller.
+Neue Funktionen lassen sich leicht ergänzen. Mögliche Erweiterungen wären z. B. eine Rechtschreibprüfung für
+mehrere Sprachen oder ein Menü, in dem die Tastenkürzel selbst festgelegt werden können.</p>
+
+<h2>Abgabe</h2>
+<p>Das ZIP-Archiv enthält:</p>
+<ul>
+  <li><code>WeDoText.jar</code>: ausführbares Programm</li>
+  <li><code>Dokumentation.pdf</code>: diese Dokumentation</li>
+  <li><code>src/</code>: der Quellcode</li>
+</ul>
+</div>
+
+</body>
+</html>
